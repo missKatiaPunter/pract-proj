@@ -2,6 +2,7 @@ import pandas as pd
 import plotly.graph_objects as go
 from flask import Flask, render_template
 import json
+import os
 
 app = Flask(__name__)
 
@@ -55,7 +56,12 @@ def index():
 
     fig.update_geos(fitbounds="locations", visible=False)
     fig.update_layout(
-        margin=dict(l=20, r=200, t=0, b=0),
+        title=dict(
+            text="Fake Data for UK LADs",
+            x=0.5,  # Center the title
+            font=dict(size=20)  # Increase title font size
+        ),
+        margin=dict(l=20, r=200, t=80, b=0),  # Changed t=0 ➔ t=80
         legend=dict(x=1.05, y=0.5),
         height=800
     )
@@ -63,4 +69,5 @@ def index():
     return render_template('index.html', choropleth_map=fig.to_html(full_html=False))
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=5002)
+    port = int(os.environ.get("PORT", 5000))  # Use Render's assigned port
+    app.run(debug=True, host='0.0.0.0', port=port)
