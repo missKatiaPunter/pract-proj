@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="map-container">
+            {{ choropleth_map|safe }}
+        </div>
+    </div>
+</body>
+</html>
