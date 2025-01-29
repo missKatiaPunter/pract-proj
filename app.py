@@ -12,10 +12,10 @@ geojson_file = 'data/lad_geojson.json'
 
 # Discrete color mapping
 COLOR_MAP = {
-    1: '#bd1534',  # Red
-    2: '#fc9d03',  # Orange
-    3: '#e3fc03',  # Yellow
-    4: '#135701'   # Green
+    1: '#440154',  # Red
+    2: '#31688e',  # Orange
+    3: '#35b779',  # Yellow
+    4: '#fde725'   # Green
 }
 
 @app.route('/')
@@ -54,20 +54,33 @@ def index():
         )
     ))
 
-    fig.update_geos(fitbounds="locations", visible=False)
+    fig.update_geos(fitbounds="geojson", visible=False)
     fig.update_layout(
         title=dict(
             text="Fake Data for UK LADs",
-            x=0.5,  # Center the title
-            font=dict(size=20)  # Increase title font size
+            x=0.5,
+            y=0.95,
+            font=dict(size=20),
+            pad=dict(t=50, b=20)
         ),
-        margin=dict(l=20, r=200, t=80, b=0),  # Changed t=0 ➔ t=80
-        legend=dict(x=1.05, y=0.5),
-        height=800
+        margin=dict(l=10, r=200, t=30, b=10),  # 🔥 Keeps spacing balanced
+        height=900,  # 🔥 Ensures proper size on desktop
+        geo=dict(
+            projection=dict(type="equirectangular"),  # 🔥 Prevents stretching
+            domain=dict(x=[0, 1], y=[0, 1]),  # 🔥 Ensures full use of space
+            center={"lat": 55.5, "lon": -3},  # 🔥 Moves UK slightly up
+        )
     )
+    fig.update_geos(
+        visible=False,
+        projection=dict(type="equirectangular", scale=3),
+        center={"lat": 52, "lon": -3}, 
+        fitbounds="locations"
+    )
+
 
     return render_template('index.html', choropleth_map=fig.to_html(full_html=False))
 
 if __name__ == '__main__':
-    port = int(os.environ.get("PORT", 5000))  # Use Render's assigned port
+    port = int(os.environ.get("PORT", 5003))  # Use Render's assigned port
     app.run(debug=True, host='0.0.0.0', port=port)
