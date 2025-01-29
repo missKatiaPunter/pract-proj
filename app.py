@@ -12,10 +12,10 @@ geojson_file = 'data/lad_geojson.json'
 
 # Discrete color mapping
 COLOR_MAP = {
-    1: '#440154',  # Red
-    2: '#31688e',  # Orange
-    3: '#35b779',  # Yellow
-    4: '#fde725'   # Green
+    1: '#440154',  # Deep Purple  
+    2: '#31688e',  # Steel Blue  
+    3: '#35b779',  # Medium Sea Green  
+    4: '#fde725',  # Bright Yellow  
 }
 
 @app.route('/')
